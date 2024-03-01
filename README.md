@@ -29,3 +29,10 @@ API for cinema world that can be used to view showtimes and book tickets
 
 
 `movies/{}/showtimes`: takes movieId to get showtimes for the movie
+
+
+`reserve/{}`: takes showtimeId to book showtime seat
+
+
+`cancel/{}`: takes reservationId to cancel reservation and decides penalty 
+
