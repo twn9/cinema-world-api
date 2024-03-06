@@ -3,16 +3,18 @@
 ### Overview:
 API for cinema world that can be used to view showtimes and book tickets 
 
+### Prerequisites
+- Docker
+- sbt
+
 ### How to run:
-Start the postgres container: `docker-compose up`  
+1. Start the postgres container: `docker-compose up`  
 
-Use to query directly to database: `docker exec -it {container name} psql -U postgres` 
+2. Use to query directly to database: `docker exec -it {container name} psql -U postgres` 
 
 
-Start the server: `sbt run`
-http://localhost:8080/movies
-
-To stop the server, press Enter in the console
+3. Start the server: `sbt run`
+    -  http://localhost:8080/movies -> To stop the server, press Enter in the console
 
 
 To run tests `sbt test`. postgres must be running for api integration test to run.  
