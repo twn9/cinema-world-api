@@ -17,7 +17,7 @@ API for cinema world that can be used to view showtimes and book tickets
     -  http://localhost:8080/movies -> To stop the server, press Enter in the console
 
 
-To run tests `sbt test`. postgres must be running for api integration test to run.  
+To run tests `sbt test`. Container must be running for integration test to run.  
 
 
 
