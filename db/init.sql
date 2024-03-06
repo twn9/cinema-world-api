@@ -19,5 +19,6 @@ create table if not exists movies."Reservation" (
     "id" BIGSERIAL NOT NULL PRIMARY KEY,
     "showtimeId" BIGSERIAL NOT NULL,
     FOREIGN KEY ("showtimeId") REFERENCES movies."ShowTime"("id"),
-    "penalty" FLOAT8
+    "canceled" BOOLEAN,
+    "penalty" BOOLEAN
 );

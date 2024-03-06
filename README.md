@@ -15,21 +15,21 @@ http://localhost:8080/movies
 To stop the server, press Enter in the console
 
 
-To run tests `sbt test`. postgres must be running for tests to run.  
+To run tests `sbt test`. postgres must be running for api integration test to run.  
 
 
 
 ### Endpoints:
-`movies`: returns all showing movies
+`GET movies`: returns all showing movies
 
 
-`movies/{}`: takes movieId to get movie info
+`GET movies/{}`: takes movieId to get movie info
 
 
-`movies/{}/showtimes`: takes movieId to get showtimes for the movie
+`GET movies/{}/showtimes`: takes movieId to get showtimes for the movie
 
 
-`reserve/{}`: takes showtimeId to book showtime seat
+`POST reserve/{}`: takes showtimeId to book showtime seat
 
 
-`cancel/{}`: takes reservationId to cancel reservation and decide penaltys 
+`PUT cancel/{}`: takes reservationId to cancel reservation and decide penaltys 

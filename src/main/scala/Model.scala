@@ -3,11 +3,9 @@ import slick.jdbc.JdbcProfile
 import slick.lifted.ProvenShape
 import java.sql.Ref
 
-
 case class Movie(id: Long, title: String)
 case class ShowTime(id: Long, movieId: Long, date:String, time: String, max:Int, reservations:Int)
-case class Reservation(id: Long, showtimeId: Long, penalty: Float)
-
+case class Reservation(id: Long, showtimeId: Long, canceled: Boolean, penalty: Boolean)
 
 object SlickTables {
 
@@ -32,9 +30,10 @@ object SlickTables {
     class ReservationTable(tag: Tag) extends Table[Reservation](tag, Some("movies"), "Reservation") {
         def id: Rep[Long] = column[Long]("id", O.PrimaryKey, O.AutoInc)
         def showtimeId: Rep[Long] = column[Long]("showtimeId")
-        def penalty: Rep[Float] = column[Float]("penalty")
+        def canceled: Rep[Boolean] = column[Boolean]("canceled")
+        def penalty: Rep[Boolean] = column[Boolean]("penalty")
         
-        def * : ProvenShape[Reservation] = (id, showtimeId, penalty) <> (Reservation.tupled, Reservation.unapply)
+        def * : ProvenShape[Reservation] = (id, showtimeId, canceled ,penalty) <> (Reservation.tupled, Reservation.unapply)
     }
 
     lazy val movietable = TableQuery[MovieTable]

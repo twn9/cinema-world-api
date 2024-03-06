@@ -1,18 +1,14 @@
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.StatusCodes
 import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContextExecutor
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import slick.jdbc.PostgresProfile.api._
-import scala.concurrent.ExecutionContextExecutor
 
 object Routes extends JsonSupport {
-
-    def route(implicit system: ActorSystem): Route = {
-        implicit val ec: ExecutionContextExecutor = system.dispatcher
-        val db = Database.forConfig("dbConfig")
-        val logic = new Logic(db)
-
+    def route(logic: Logic)(implicit system: ActorSystem): Route = {
+        // curl localhost:8080/health
         path("health") {
             get {
                 complete(StatusCodes.OK)
@@ -20,7 +16,7 @@ object Routes extends JsonSupport {
         } ~
         path("movies") {
             get {
-                onComplete(logic.getAll()){
+                onComplete(logic.getAllMovies()){
                     case Success(movies) => complete(StatusCodes.OK, movies)
                     case Failure(ex) => complete(StatusCodes.InternalServerError, ex)
                 }
@@ -49,6 +45,7 @@ object Routes extends JsonSupport {
                 }
             }   
         } ~
+        // curl -X POST localhost:8080/reserce/{"id"}
         path("reserve" / LongNumber) { id =>
             post {
                 onComplete(logic.reserve(id)){
@@ -58,8 +55,9 @@ object Routes extends JsonSupport {
                 }
             }
         } ~
+        // curl -X PUT localhost:8080/cancel/{"id"}
         path("cancel" / LongNumber) { id =>
-            post {
+            put {
                 onComplete(logic.cancel(id)){
                     case Success(x) => complete(StatusCodes.OK, x)
                     case Failure(ex) => complete(StatusCodes.InternalServerError, ex)

@@ -17,9 +17,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http-testkit" % "10.2.6" % Test,
   "com.typesafe.akka" %% "akka-testkit" % "2.6.16" % Test,
   "org.scalatest" %% "scalatest" % "3.2.18" % Test,
+  "org.scalamock" %% "scalamock" % "5.1.0" % Test
 )
 
 lazy val root = (project in file("."))
   .settings(
-    name := "cinema-world"
+    name := "cinema-world-api"
   )

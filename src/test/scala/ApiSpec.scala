@@ -2,14 +2,17 @@ import akka.http.scaladsl.model._
 import akka.http.scaladsl.testkit._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Route
-
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-
+import slick.jdbc.PostgresProfile.api._
 
 class ApiSpec extends AnyWordSpec with Matchers with ScalatestRouteTest with JsonSupport {
-  val route = Routes.route(system)
-  Thread.sleep(2000)
+  val db = Database.forConfig("dbConfig")
+  val repository = new Repository(db)
+  val logic = new Logic(repository)
+  val route = Routes.route(logic)
+  repository.populate()
+  Thread.sleep(1000)
 
   "API" should {
     "return 200 status code Get/ health" in {
@@ -62,13 +65,13 @@ class ApiSpec extends AnyWordSpec with Matchers with ScalatestRouteTest with Jso
     }
 
     "return a successful cancelation Get/ cancel/{id}" in {
-      Post("/cancel/3") ~> route ~> check {
+      Put("/cancel/3") ~> route ~> check {
         status shouldBe StatusCodes.OK
       }
     }
 
     "return a not found response Get/ cancel/{id}" in {
-      Post("/cancel/99") ~> route ~> check {
+      Put("/cancel/99") ~> route ~> check {
         status shouldBe StatusCodes.OK
         responseAs[String] shouldEqual "Reservation not found"
       }
